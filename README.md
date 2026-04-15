@@ -1,0 +1,1 @@
+An analysis in R for the custom ensemble-based deep learning framework designed to improve the accuracy and robustness of ecological image analysis, specifically for species identification and spatial detection tasks in marine environments.
