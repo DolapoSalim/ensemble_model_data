@@ -13,7 +13,6 @@ library(broom)
 data_v8 <- read.csv("data/YOLO8/results_V8.csv")
 data_v9 <- read.csv("data/YOLO9/results_V9.csv")
 data_v11 <- read.csv("data/YOLO11/results_V11.csv")
-data_v12 <- read.csv("data/YOLO12/results_V12.csv")
 
 
 # HELPER FUNCTIONS
@@ -40,9 +39,8 @@ list_column_names(df)
 data_v8  <- clean_names(data_v8)
 data_v9  <- clean_names(data_v9)
 data_v11 <- clean_names(data_v11)
-data_v12 <- clean_names(data_v12)
 
-df <-data_v12
+df <-data_v11
 list_column_names(df)
 
 #name columns to keep
@@ -71,7 +69,6 @@ keep_cols <- c("epoch",
 data_v8  <- data_v8[, keep_cols]
 data_v9  <- data_v9[, keep_cols]
 data_v11 <- data_v11[, keep_cols]
-data_v12 <- data_v12[, keep_cols]
 
 cols <- c("train_box_loss" = "blue", "train_seg_loss" = "red")
 
@@ -105,10 +102,9 @@ plot_for_all <- function(df) {
 plot_1 <- plot_for_all(data_v8)  + labs(title = "YOLOv8 Loss Curves") #To include the title in the plot for each version
 plot_2 <- plot_for_all(data_v9)  + labs(title = "YOLOv9 Loss Curves")
 plot_3 <- plot_for_all(data_v11) + labs(title = "YOLOv11 Loss Curves")
-plot_4 <- plot_for_all(data_v12) + labs(title = "YOLOv12 Loss Curves")
 
-plot_all <- ggarrange(plot_1, plot_2, plot_3, plot_4,
-                      ncol = 2, nrow = 2,
+plot_all <- ggarrange(plot_1, plot_2, plot_3,
+                      ncol = 3, nrow = 1,
                       common.legend = TRUE,  # single shared legend
                       legend = "bottom")
 plot_all
