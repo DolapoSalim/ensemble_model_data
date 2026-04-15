@@ -1,0 +1,144 @@
+========================================================================================================================
+YOLO INSTANCE SEGMENTATION - COMPREHENSIVE VALIDATION REPORT FOR RESEARCH
+========================================================================================================================
+
+1. MODEL INFORMATION
+------------------------------------------------------------------------------------------------------------------------
+Model Path:               /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/tuscan-macroalgae-recognition-4/runs/segment/train/weights/best.pt
+Data YAML:                /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/tuscan-macroalgae-recognition-4/data.yaml
+Results Directory:        /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive
+Number of Classes:        3
+Total Instances:          102
+Image Size:               640x640
+Batch Size:               16
+Confidence Threshold:     0.001
+IoU Threshold:            0.6
+Max Detections/Image:     300
+
+2. CLASS DISTRIBUTION
+------------------------------------------------------------------------------------------------------------------------
+  Cystoseira sl                      33 instances ( 32.4%)
+  Posidonia oceanica                 37 instances ( 36.3%)
+  Sargassum vulgare                  32 instances ( 31.4%)
+
+3. OVERALL PERFORMANCE SUMMARY
+------------------------------------------------------------------------------------------------------------------------
+Metric                                             Value
+------------------------------------------------------------------------------------------------------------------------
+metrics/precision(B)                            0.892154
+metrics/recall(B)                               0.641727
+metrics/mAP50(B)                                0.765926
+metrics/mAP50-95(B)                             0.639345
+metrics/precision(M)                            0.831109
+metrics/recall(M)                               0.608293
+metrics/mAP50(M)                                0.713306
+metrics/mAP50-95(M)                             0.559124
+fitness                                         1.198469
+
+4. BOUNDING BOX DETECTION METRICS
+------------------------------------------------------------------------------------------------------------------------
+Mean Precision (P):       0.892154
+Mean Recall (R):          0.641727
+Mean F1-Score:            0.741728
+mAP@0.5:                  0.765926
+mAP@0.5:0.95:             0.639345
+
+5. INSTANCE SEGMENTATION METRICS
+------------------------------------------------------------------------------------------------------------------------
+Mean Precision (P):       0.831109
+Mean Recall (R):          0.608293
+Mean F1-Score:            0.697867
+mAP@0.5:                  0.713306
+mAP@0.5:0.95:             0.559124
+
+6. PER-CLASS DETAILED METRICS
+========================================================================================================================
+
+CLASS 0: CYSTOSEIRA SL
+------------------------------------------------------------------------------------------------------------------------
+  Number of Instances:      33
+
+  Bounding Box Metrics:
+    Precision:              0.912598
+    Recall:                 0.632952
+    F1-Score:               0.747476
+    AP@0.5:                 0.753907
+    AP@0.5:0.95:            0.611849
+
+  Segmentation Metrics:
+    Precision:              0.825197
+    Recall:                 0.572346
+    F1-Score:               0.675898
+    AP@0.5:                 0.679199
+    AP@0.5:0.95:            0.549754
+
+CLASS 1: POSIDONIA OCEANICA
+------------------------------------------------------------------------------------------------------------------------
+  Number of Instances:      37
+
+  Bounding Box Metrics:
+    Precision:              0.823476
+    Recall:                 0.729730
+    F1-Score:               0.773774
+    AP@0.5:                 0.827276
+    AP@0.5:0.95:            0.734666
+
+  Segmentation Metrics:
+    Precision:              0.884474
+    Recall:                 0.783784
+    F1-Score:               0.831090
+    AP@0.5:                 0.870135
+    AP@0.5:0.95:            0.650300
+
+CLASS 2: SARGASSUM VULGARE
+------------------------------------------------------------------------------------------------------------------------
+  Number of Instances:      32
+
+  Bounding Box Metrics:
+    Precision:              0.940388
+    Recall:                 0.562500
+    F1-Score:               0.703936
+    AP@0.5:                 0.716596
+    AP@0.5:0.95:            0.571520
+
+  Segmentation Metrics:
+    Precision:              0.783657
+    Recall:                 0.468750
+    F1-Score:               0.586613
+    AP@0.5:                 0.590585
+    AP@0.5:0.95:            0.477319
+
+7. INFERENCE SPEED ANALYSIS
+------------------------------------------------------------------------------------------------------------------------
+Stage                                Time (ms)
+------------------------------------------------------------------------------------------------------------------------
+preprocess                                0.57
+inference                                19.17
+loss                                      0.02
+postprocess                               0.81
+TOTAL                                    20.56
+
+FPS (approx):             48.64
+
+8. STATISTICAL SUMMARY
+------------------------------------------------------------------------------------------------------------------------
+Box Detection Performance:
+  Best Class (by mAP@0.5:0.95):   Posidonia oceanica (0.7347)
+  Worst Class (by mAP@0.5:0.95):  Sargassum vulgare (0.5715)
+  Std Dev of mAP@0.5:0.95:        0.0694
+
+Segmentation Performance:
+  Best Class (by mAP@0.5:0.95):   Posidonia oceanica (0.6503)
+  Worst Class (by mAP@0.5:0.95):  Sargassum vulgare (0.4773)
+  Std Dev of mAP@0.5:0.95:        0.0709
+
+9. GENERATED OUTPUT FILES
+------------------------------------------------------------------------------------------------------------------------
+  Validation results:       /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive
+  Confusion matrix:         /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive/confusion_matrix.png
+  PR curves:                /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive/PR_curve.png
+  F1 curves:                /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive/F1_curve.png
+  P curves:                 /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive/P_curve.png
+  R curves:                 /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive/R_curve.png
+  Results JSON:             /home/dolapo/projects/tuscan-custom-model/hpc-training/yolov8x_training/validation_results/yolov8x_test_comprehensive/predictions.json
+

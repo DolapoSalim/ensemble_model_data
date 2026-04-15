@@ -1,0 +1,5 @@
+,Pred_Cystoseira sl,Pred_Posidonia oceanica,Pred_Sargassum vulgare,Background
+True_Cystoseira sl,20.0,0.0,0.0,3.0
+True_Posidonia oceanica,0.0,32.0,0.0,7.0
+True_Sargassum vulgare,0.0,0.0,20.0,3.0
+Background,13.0,5.0,12.0,0.0
