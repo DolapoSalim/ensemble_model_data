@@ -103,7 +103,7 @@ p_grouped <- metrics_df %>%
     axis.text.x = element_text(face = "bold"),
     legend.position = "bottom"
   )
-ggsave("plots/01_diverging_model_comparison.png", p_grouped,
+ggsave("plots/01_model_performance_across_matrics.png", p_grouped,
        width = 11, height = 6, dpi = 300)
 
 # ============================================================
@@ -296,42 +296,64 @@ plot_cm_ultralytics <- function(cm_path, model_name, out_path) {
   text_colors <- ifelse(cm_melt$value > 0.55, "white", "black")
   
   ggplot(cm_melt, aes(x = Predicted, y = True, fill = value)) +
-    geom_tile(color = "#1a1a2e", linewidth = 0.8) +
+    geom_tile() +
     geom_text(aes(label = label),
               color     = text_colors,
               size      = 4.5,
               fontface  = "bold") +
     scale_fill_gradientn(
-      colours = c("#1a1a2e", "#16213e", "#0f3460", "#533483",
-                  "#e94560", "#f5a623", "#f9f871"),
+      colours = c(
+        "#ffffff",
+        "#deebf7",
+        "#9ecae1",
+        "#6baed6",
+        "#3182bd",
+        "#08519c",
+        "#08306b" 
+      ),
       values  = rescale(c(0, 0.1, 0.25, 0.45, 0.65, 0.82, 1.0)),
       limits  = c(0, 1),
-      labels  = percent_format(accuracy = 1),
+      #labels  = percent_format(accuracy = 1),
       name    = "Normalised\nCount"
     ) +
-    scale_x_discrete(position = "bottom") +
-    labs(
-      title    = model_name,
-      subtitle = "Rows normalised by true class count",
-      x        = "Predicted",
-      y        = "True"
+    scale_x_discrete(
+      position = "bottom",
+      labels = function(x) {
+        parsed <- ifelse(
+          x != "Background",
+          paste0("italic('", gsub("_", "~", x), "')"),
+          paste0("'", x, "'")
+        )
+        parse(text = parsed)
+      }
+    ) +
+    scale_y_discrete(
+      labels = function(y) {
+        parsed <- ifelse(
+          y != "Background",
+          paste0("italic('", gsub("_", "~", y), "')"),
+          paste0("'", y, "'")
+        )
+        parse(text = parsed)
+      }
     ) +
     theme(
-      plot.background  = element_rect(fill = "#1a1a2e", color = NA),
-      panel.background = element_rect(fill = "#1a1a2e", color = NA),
+      plot.background  = element_rect(fill = "white", color = NA),
+      panel.background = element_rect(fill = "white", color = NA),
       panel.grid       = element_blank(),
-      plot.title       = element_text(color = "white", face = "bold",
+      plot.title       = element_text(color = "black", face = "bold",
                                       size = 14, hjust = 0),
-      plot.subtitle    = element_text(color = "#aaaacc", size = 9, hjust = 0),
-      axis.title       = element_text(color = "white", size = 11, face = "bold"),
-      axis.text        = element_text(color = "#ccccee", size = 10),
+      plot.subtitle    = element_text(color = "grey", size = 9, hjust = 0),
+      axis.title       = element_text(color = "black", size = 11, face = "bold"),
+      axis.text        = element_text(color = "black", size = 10),
       axis.ticks       = element_blank(),
-      legend.background = element_rect(fill = "#1a1a2e", color = NA),
-      legend.text      = element_text(color = "white", size = 9),
-      legend.title     = element_text(color = "white", size = 9, face = "bold"),
-      plot.margin      = margin(16, 16, 16, 16)
+      legend.background = element_rect(fill = "white", color = NA),
+      legend.text      = element_text(color = "black", size = 9),
+      legend.title     = element_text(color = "black", size = 9, face = "bold"),
+      plot.margin      = margin(16, 16, 16, 16),
     )
 }
+
 
 p_cm_v8  <- plot_cm_ultralytics(
   "data/YOLO8/yolov8x_test_comprehensive_confusion_matrix.csv",  "YOLOv8",  "plots/06a_cm_v8.png")
@@ -343,16 +365,16 @@ p_cm_ens <- plot_cm_ultralytics(
   "data/WBF/wbf_ensemble_confusion_matrix.csv",                "WBF Ensemble", "plots/06d_cm_ensemble.png")
 
 # Save each individually
-ggsave("plots/06a_cm_YOLOv8.png",     p_cm_v8,  width = 6, height = 5.5, dpi = 300)
-ggsave("plots/06b_cm_YOLOv9.png",     p_cm_v9,  width = 6, height = 5.5, dpi = 300)
-ggsave("plots/06c_cm_YOLOv11.png",    p_cm_v11, width = 6, height = 5.5, dpi = 300)
-ggsave("plots/06d_cm_Ensemble.png",   p_cm_ens, width = 6, height = 5.5, dpi = 300)
+ggsave("plots/06a_cm_YOLOv8.png",     p_cm_v8,  width = 14, height = 11.5, dpi = 300)
+ggsave("plots/06b_cm_YOLOv9.png",     p_cm_v9,  width = 14, height = 11.5, dpi = 300)
+ggsave("plots/06c_cm_YOLOv11.png",    p_cm_v11, width = 14, height = 11.5, dpi = 300)
+ggsave("plots/06d_cm_Ensemble.png",   p_cm_ens, width = 14, height = 11.5, dpi = 300)
 
 # Also save all 4 in one panel
 p_cm_all <- ggarrange(p_cm_v8, p_cm_v9, p_cm_v11, p_cm_ens,
                       ncol = 2, nrow = 2)
 ggsave("plots/06_confusion_matrices_all.png", p_cm_all,
-       width = 13, height = 11, dpi = 300,
+       width = 17, height = 12, dpi = 350,
        bg = "#1a1a2e")
 
 # ============================================================
