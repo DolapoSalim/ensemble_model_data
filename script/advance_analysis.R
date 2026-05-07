@@ -37,7 +37,7 @@ summary_v8  <- get_bbox_summary("data/YOLO8/yolov8x_test_comprehensive_summary_s
 summary_v9  <- get_bbox_summary("data/YOLO9/yolov9x_test_comprehensive_summary_statistics.csv",  "YOLOv9")
 summary_v11 <- get_bbox_summary("data/YOLO11/yolov11x_test_comprehensive_summary_statistics.csv", "YOLOv11")
 
-# WBF summary (from wbf_ensemble_summary_statistics.csv)
+#WBF
 wbf_summary_raw <- read.csv("data/WBF/wbf_ensemble_summary_statistics.csv")
 ensemble_summary <- data.frame(
   model          = "Ensemble",
@@ -63,10 +63,8 @@ model_colors <- c(
 
 dir.create("plots", showWarnings = FALSE)
 
-# ============================================================
-# 1. DIVERGING BAR CHART — ENSEMBLE GAIN OVER BEST SINGLE MODEL
-# ============================================================
-# Baseline = best single model per metric
+
+# 1.GROUPED BAR CHART
 
 metrics_df <- summary_all %>%
   select(model, mean_precision, mean_recall, mean_f1, `mAP@0.5`, `mAP@0.5:0.95`) %>%
@@ -101,14 +99,15 @@ p_grouped <- metrics_df %>%
   theme_minimal(base_size = 13) +
   theme(
     axis.text.x = element_text(face = "bold"),
+    plot.title       = element_text(face = "bold"),
     legend.position = "bottom"
   )
 ggsave("plots/01_model_performance_across_matrics.png", p_grouped,
        width = 11, height = 6, dpi = 300)
 
-# ============================================================
+
 # 2. OVERALL mAP BAR CHART — ZOOMED Y AXIS
-# ============================================================
+
 
 map_long <- summary_all %>%
   select(model, `mAP@0.5`, `mAP@0.5:0.95`) %>%
@@ -336,6 +335,11 @@ plot_cm_ultralytics <- function(cm_path, model_name, out_path) {
         )
         parse(text = parsed)
       }
+    ) +
+    labs(
+      title = model_name,
+      x = "Predicted",
+      y = "True"
     ) +
     theme(
       plot.background  = element_rect(fill = "white", color = NA),
