@@ -63,7 +63,7 @@ keep_cols <- c("epoch",
                "val_cls_loss",
                "val_dfl_loss"
 )
-# pass the data with these preferred columns into eacch dataframe
+# pass the data with these preferred columns into each data
 data_v8  <- data_v8[, keep_cols]
 data_v9  <- data_v9[, keep_cols]
 data_v11 <- data_v11[, keep_cols]
@@ -74,6 +74,7 @@ taster_palettes_discrete()
 
 # I'm bad with colors so I will randomly select...hehh heehh
 all_cols <- unlist(taster_palettes_discrete())
+length(all_cols)
 cols <- sample(all_cols, 2)
 
 names(cols) <- c(keep_cols[3], keep_cols[4])
@@ -95,8 +96,8 @@ plot_1
 # function to plot all the dataframes with the same format
 plot_for_all <- function(df) {
   ggplot(df, aes(x = epoch)) +
-    geom_line(aes(y = train_box_loss, color = "train_box_loss"), linewidth = 1.2) +
-    geom_line(aes(y = train_seg_loss, color = "train_seg_loss"), linewidth = 1.2) +
+    geom_line(aes(y = train_box_loss, color = "train_box_loss"), linewidth = 0.5) +
+    geom_line(aes(y = train_seg_loss, color = "train_seg_loss"), linewidth = 0.5) +
     labs(x = "Epoch", y = "Loss") +
     scale_color_manual(values = cols,
                        name = "Loss Type",
@@ -123,7 +124,7 @@ plot_all
 ?ggsave
 
 ggsave(
-  filename = "training_loss_curves.png",
+  filename = "8_training_loss_curves.png",
   plot = plot_all,
   path = "plots",
   width = 12, height = 6, units = "in",
@@ -131,6 +132,8 @@ ggsave(
   bg = "white"
 )
 
+
+#PRECISION AND RECALL DURING TRAINING
 #Plot precision and recal curves for both Box and Mask (seg)
 cols <- sample(all_cols, 4)
 
@@ -149,7 +152,46 @@ plot_2 <- ggplot(data_v11, aes(x = epoch)) +
   geom_line(aes(y = metrics_recall_M, color = "metrics_recall_M")) +
   labs(title = "YOLOv8 Precision and Recall Curves", x = "Epoch", y = "Value") +
   scale_color_manual(values = cols,
-                     name = "Metric Type",
+                     name = "Metric",
                      labels = c("Precision (B)", "Precision (M)", "Recall (B)", "Recall (M)")) +
   theme_minimal()
 plot_2
+
+
+#function to plot all the versions Precision and Recall curve during training
+plot_PR_all <- function(df) {
+  ggplot(df, aes(x = epoch)) +
+    geom_line(aes(y = metrics_precision_B, color = "metrics_precision_B"), linewidth = 0.5) +
+    geom_line(aes(y = metrics_precision_M, color = "metrics_precision_M"), linewidth = 0.5) +
+    geom_line(aes(y = metrics_recall_B, color = "metrics_recall_B"), linewidth = 0.5) +
+    geom_line(aes(y = metrics_recall_M, color = "metrics_recall_M"), linewidth = 0.5) +
+    labs(x = "Epoch", y = "Value") +
+    scale_color_manual(values = cols,
+                       name = "METRIC",
+                       labels = c("Precision (B)", "Precision (M)", "Recall (B)", "Recall (M)")) +
+    theme_minimal()
+}
+
+plot_1.1 <- plot_PR_all(data_v8)  + labs(title = "YOLOv8 Precision & Recall Curves")
+plot_2.1 <- plot_PR_all(data_v9)  + labs(title = "YOLOv9 Precision & Recall Curves")
+plot_3.1 <- plot_PR_all(data_v11) + labs(title = "YOLOv11 Precision & Recall Curves")
+
+
+plot_all_pr <- ggarrange(plot_1.1, plot_2.1, plot_3.1,
+                      ncol = 3, nrow = 1,
+                      common.legend = TRUE,  # single shared legend
+                      legend = "bottom")
+
+plot_all_pr <- annotate_figure(plot_all_pr,
+                            top = text_grob("Precision and Recall Training Curves across YOLO Versions", 
+                                            face = "bold", size = 14))
+plot_all_pr
+
+ggsave(
+  filename = "9_training_PR_curves.png",
+  plot = plot_all_pr,
+  path = "plots",
+  width = 14, height = 6, units = "in",
+  dpi = 300,
+  bg = "white"
+)
